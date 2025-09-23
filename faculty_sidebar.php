@@ -3,88 +3,50 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 ?>
 
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+.sidebar {
+    width: 200px; /* reduced width */
+    background: #f5f6ffff;
+    color: #ffffff;
+    padding-top: 80px; /* equal to header height */
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    overflow-y: auto;
+}
 
-    body {
-        font-family: 'Segoe UI', sans-serif;
-        display: flex;
-        background-color: #f4f7fc;
-        min-height: 100vh;
-    }
+.sidebar a {
+    display: block;
+    color: #000000ff;
+    background-color: transparent;
+    padding: 12px 16px;
+    margin: 8px 0;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
 
-    .sidebar {
-        width: 240px;
-        background: linear-gradient(135deg, #828794ff, #828794ff);
-        color: #ffffff;
-        padding: 40px 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-    }
+/* Changed hover color to grey */
+.sidebar a:hover {
+    background-color: #d3d3d3; /* grey */
+    transform: translateX(3px);
+}
 
-    .sidebar h2 {
-        text-align: center;
-        margin-bottom: 40px;
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    .sidebar a {
-        display: block;
-        color: #ffffff;
-        background-color: transparent;
-        padding: 14px 18px;
-        margin: 10px 0;
-        text-decoration: none;
-        border-radius: 8px;
-        font-size: 15px;
-        transition: background 0.3s ease, transform 0.2s ease;
-    }
-
-    .sidebar a:hover {
-        background-color: rgba(255, 255, 255, 0.15);
-        transform: translateX(5px);
-    }
-
-    .sidebar a.active {
-        background-color: rgba(255, 255, 255, 0.25);
-        font-weight: bold;
-    }
-
-    .main-content {
-        margin-left: 240px;
-        padding: 50px;
-        flex: 1;
-        background-color: #f4f7fc;
-    }
-
-    @media screen and (max-width: 768px) {
-        .sidebar {
-            width: 100%;
-            height: auto;
-            flex-direction: row;
-            justify-content: space-around;
-        }
-
-        .main-content {
-            margin-left: 0;
-            padding: 20px;
-        }
-    }
+.sidebar a.active {
+    background-color: rgba(122, 122, 122, 0.25);
+    font-weight: bold;
+}
 </style>
 
 <div class="sidebar">
-    <h2>Faculty Panel</h2>
     <a href="faculty_dashboard.php" class="<?= ($currentPage == 'faculty_dashboard.php') ? 'active' : '' ?>">Dashboard</a>
     <a href="submit_worklog.php" class="<?= ($currentPage == 'submit_worklog.php') ? 'active' : '' ?>">Submit Work</a>
     <a href="logout.php" class="<?= ($currentPage == 'logout.php') ? 'active' : '' ?>">Logout</a>

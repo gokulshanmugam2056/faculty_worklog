@@ -4,12 +4,13 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'faculty') {
     header("Location: login.php");
     exit();
 }
+
 include 'db.php';
 include 'faculty_sidebar.php';
+include 'faculty_header.php';
 
 $user_id = $_SESSION['user_id'];
 
-// Fetch worklogs with department
 $query = "
     SELECT w.*, u.department
     FROM worklogs w
@@ -33,59 +34,60 @@ $result = $stmt->get_result();
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f9fa;
         }
+
         .main-content {
-            margin-left: 220px;
-            padding: 40px 30px;
-            min-height: 100vh;
+            margin-left: 240px; /* sidebar width */
+            margin-top: 50px;   /* header height reduced to move up */
+            padding: 20px 20px 40px 20px;
+            min-height: calc(100vh - 50px);
+            background-color: #f8f9fa;
         }
+
         h1 {
-            margin-bottom: 20px;
-            font-size: 26px;
+            margin-bottom: 15px;
+            font-size: 24px;
             color: #333;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            font-size: 13px; /* smaller font */
         }
+
         th, td {
-            padding: 12px 16px;
+            padding: 8px 12px; /* reduced padding */
             border-bottom: 1px solid #ddd;
             text-align: left;
         }
+
         th {
             background-color: #828794ff;
             color: white;
         }
+
         tr:hover {
             background-color: #f2f2f2;
         }
-        .status.approved {
-            color: green;
-            font-weight: bold;
-        }
-        .status.rejected {
-            color: red;
-            font-weight: bold;
-        }
-        .status.pending {
-            color: gray;
-            font-weight: bold;
-        }
+
+        .status.approved { color: green; font-weight: bold; }
+        .status.rejected { color: red; font-weight: bold; }
+        .status.pending { color: gray; font-weight: bold; }
+
         .btn-edit {
-            padding: 6px 12px;
+            padding: 4px 8px;
             background-color: #406388ff;
             color: white;
             border: none;
             cursor: pointer;
             border-radius: 4px;
+            font-size: 12px;
         }
-        .btn-edit:hover {
-            background-color: #366ca5ff;
-        }
+        .btn-edit:hover { background-color: #366ca5ff; }
     </style>
 </head>
 <body>
@@ -104,8 +106,9 @@ $result = $stmt->get_result();
             <th>Remarks</th>
             <th>Action</th>
         </tr>
+
         <?php if ($result->num_rows > 0): ?>
-            <?php while ($row = $result->fetch_assoc()) { ?>
+            <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?= htmlspecialchars($row['department']) ?></td>
                     <td><?= htmlspecialchars($row['date']) ?></td>
@@ -113,25 +116,23 @@ $result = $stmt->get_result();
                     <td><?= htmlspecialchars($row['time_to']) ?></td>
                     <td><?= htmlspecialchars($row['domain']) ?></td>
                     <td><?= htmlspecialchars($row['description']) ?></td>
-                    <td class="status <?= strtolower($row['status']) ?>">
-                        <?= htmlspecialchars($row['status']) ?>
-                    </td>
+                    <td class="status <?= strtolower($row['status']) ?>"><?= htmlspecialchars($row['status']) ?></td>
                     <td><?= htmlspecialchars($row['remarks']) ?></td>
                     <td>
-                        <?php if (strtolower($row['status']) === 'rejected') { ?>
-                            <form method="GET" action="faculty_edit_worklog.php" style="margin: 0;">
+                        <?php if (strtolower($row['status']) === 'rejected'): ?>
+                            <form method="GET" action="faculty_edit_worklog.php" style="margin:0;">
                                 <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                 <button type="submit" class="btn-edit">Edit</button>
                             </form>
-                        <?php } else { ?>
+                        <?php else: ?>
                             <span style="color: #888;">Done</span>
-                        <?php } ?>
+                        <?php endif; ?>
                     </td>
                 </tr>
-            <?php } ?>
+            <?php endwhile; ?>
         <?php else: ?>
             <tr>
-                <td colspan="9" style="text-align: center; padding: 20px;">No worklogs found.</td>
+                <td colspan="9" style="text-align: center; padding: 15px;">No worklogs found.</td>
             </tr>
         <?php endif; ?>
     </table>
