@@ -24,6 +24,13 @@ if ($result && $result->num_rows > 0) {
 ?>
 
 <style>
+
+
+.header .title {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
 .header {
     position: fixed;
     top: 0;
@@ -34,15 +41,9 @@ if ($result && $result->num_rows > 0) {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 15px;  /* reduced from 20px */
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     z-index: 1000;
-}
-
-.header .title {
-    font-size: 18px;
-    font-weight: bold;
-    color: black;
 }
 
 .header .profile-box {
@@ -50,12 +51,13 @@ if ($result && $result->num_rows > 0) {
     align-items: center;
     gap: 8px;
     background-color: rgba(0,0,0,0.05);
-    padding: 4px 10px;
+    padding: 4px 20px;
     border-radius: 6px;
     max-width: 200px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    margin-right: 40px; /* 🔹 pushes it slightly left */
 }
 
 .header .profile-box img {
